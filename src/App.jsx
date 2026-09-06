@@ -124,29 +124,35 @@ function App() {
         </div>
       )}
 
-      {screen === "memory" && (
-        <div className="page">
-          <h2>Tell Your Story</h2>
+{screen === "memory" && (
+  <div className="page">
+    <h2>Tell Your Story</h2>
 
-          <p className="subtitle">
-            What made this moment unforgettable?
-          </p>
+    <p className="subtitle">
+      What made this moment unforgettable?
+    </p>
 
-          <textarea
-            rows="8"
-            placeholder="Write about this memory..."
-            value={memory}
-            onChange={(e) => setMemory(e.target.value)}
-          />
+    <textarea
+      rows="8"
+      maxLength="500"
+      placeholder="Write about this memory..."
+      value={memory}
+      onChange={(e) => setMemory(e.target.value)}
+    />
 
-          <button
-            style={{ marginTop: "30px" }}
-            onClick={() => setScreen("keepsake")}
-          >
-            Preview Keepsake
-          </button>
-        </div>
-      )}
+    <p className="characterCount">
+      {memory.length} / 500 characters
+    </p>
+
+    <button
+      style={{ marginTop: "30px" }}
+      disabled={!memory.trim()}
+      onClick={() => setScreen("keepsake")}
+    >
+      Preview Keepsake
+    </button>
+  </div>
+)}
 
       {screen === "keepsake" && (
         <div className="page">

@@ -303,3 +303,15 @@ textarea{
   font-size:.95rem;
 
 }
+.characterCount{
+  text-align:right;
+  color:#6b7280;
+  font-size:.9rem;
+  margin-top:8px;
+}
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+  transform:none;
+  box-shadow:none;
+}
