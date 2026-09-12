@@ -5,6 +5,7 @@ import PhoneFrame from "./components/PhoneFrame/PhoneFrame";
 function App() {
   const [screen, setScreen] = useState("landing");
   const [memory, setMemory] = useState("");
+  const [heroPhoto, setHeroPhoto] = useState("");
 
   useEffect(() => {
     if (screen === "scanning") {
@@ -15,6 +16,20 @@ function App() {
       return () => clearTimeout(timer);
     }
   }, [screen]);
+
+  const handleHeroPhoto = (e) => {
+    const file = e.target.files[0];
+  
+    if (!file) return;
+  
+    const reader = new FileReader();
+  
+    reader.onloadend = () => {
+      setHeroPhoto(reader.result);
+    };
+  
+    reader.readAsDataURL(file);
+  };
 
   return (
     <PhoneFrame>
@@ -102,27 +117,54 @@ function App() {
         </div>
       )}
 
-      {screen === "photo" && (
-        <div className="page">
-          <h2>Choose Hero Photo</h2>
+{screen === "photo" && (
+  <div className="page">
+    <h2>Choose Hero Photo</h2>
 
-          <p className="subtitle">
-            This will become the cover of your memory.
-          </p>
+    <p className="subtitle">
+      This will become the cover of your memory.
+    </p>
 
-          <div className="uploadCard">
-            <div className="emoji">🖼️</div>
-
-            <h3>Your Favorite Photo</h3>
-
-            <p>Photo upload coming soon.</p>
-          </div>
-
-          <button onClick={() => setScreen("memory")}>
-            Continue
-          </button>
-        </div>
+    <div className="uploadCard">
+      {heroPhoto ? (
+        <img
+          src={heroPhoto}
+          alt="Selected hero photo"
+          style={{
+            width: "100%",
+            maxHeight: "250px",
+            objectFit: "cover",
+            borderRadius: "12px",
+            marginBottom: "15px",
+          }}
+        />
+      ) : (
+        <div className="emoji">🖼️</div>
       )}
+
+      <h3>Your Favorite Photo</h3>
+
+      <p>
+        {heroPhoto
+          ? "Your photo is ready!"
+          : "Choose a photo from your device."}
+      </p>
+
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleHeroPhoto}
+      />
+    </div>
+
+    <button
+      disabled={!heroPhoto}
+      onClick={() => setScreen("memory")}
+    >
+      Continue
+    </button>
+  </div>
+)}
 
 {screen === "memory" && (
   <div className="page">
@@ -159,9 +201,19 @@ function App() {
           <h2>Your Keepsake</h2>
 
           <div className="keepsakeCard">
-            <div className="photoPlaceholder">
-              Hero Photo
-            </div>
+          {heroPhoto && (
+  <img
+    src={heroPhoto}
+    alt="Hero photo for this memory"
+    style={{
+      width: "100%",
+      maxHeight: "250px",
+      objectFit: "cover",
+      borderRadius: "12px",
+      marginBottom: "15px",
+    }}
+  />
+)}
 
             <h3>Avenged Sevenfold | North American Tour</h3>
 
@@ -191,9 +243,19 @@ function App() {
           </p>
 
           <div className="uploadCard">
-            <div className="photoPlaceholder">
-              Hero Photo
-            </div>
+          {heroPhoto && (
+  <img
+    src={heroPhoto}
+    alt="Hero photo for this memory"
+    style={{
+      width: "100%",
+      maxHeight: "200px",
+      objectFit: "cover",
+      borderRadius: "12px",
+      marginBottom: "15px",
+    }}
+  />
+)}
 
             <h3> Avenged Sevenfold | North American Tour</h3>
 
