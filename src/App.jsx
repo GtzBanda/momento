@@ -31,6 +31,29 @@ function App() {
     reader.readAsDataURL(file);
   };
 
+  const handleShare = async () => {
+    const shareText =
+      "Check out my Momento! Avenged Sevenfold | North American Tour at Ball Arena in Denver, CO. August 23, 2026.";
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "My Momento",
+          text: shareText,
+        });
+      } catch (error) {
+        console.log("Sharing was cancelled.");
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareText);
+        alert("Momento details copied to your clipboard!");
+      } catch (error) {
+        alert("Unable to share this Momento.");
+      }
+    }
+  };
+
   return (
     <PhoneFrame>
       {screen === "landing" && (
@@ -260,6 +283,13 @@ function App() {
             <h3> Avenged Sevenfold | North American Tour</h3>
 
             <p>August 23, 2026</p>
+
+            <button
+              style={{ marginTop: "20px" }}
+              onClick={handleShare}
+            >
+              Share Momento
+            </button>
 
             <button
               style={{ marginTop: "20px" }}
